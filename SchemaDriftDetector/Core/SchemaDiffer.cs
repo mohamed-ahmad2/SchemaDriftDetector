@@ -41,7 +41,8 @@
 
         private static void CompareProperties(SchemaNode oldNode, SchemaNode newNode, string path, List<SchemaDifference> differences)
         {
-            var allKeys = oldNode.Properties.Keys.Union(newNode.Properties.Keys);
+            var allKeys = new HashSet<string>(oldNode.Properties.Keys);
+            allKeys.UnionWith(newNode.Properties.Keys);
 
             foreach (var key in allKeys)
             {

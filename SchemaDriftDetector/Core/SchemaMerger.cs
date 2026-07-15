@@ -11,7 +11,9 @@
                 IsOptional = baseline.IsOptional || newSample.IsOptional
             };
 
-            var allKeys = baseline.Properties.Keys.Union(newSample.Properties.Keys);
+            var allKeys = new HashSet<string>(baseline.Properties.Keys);
+            allKeys.UnionWith(newSample.Properties.Keys);
+
             foreach (var key in allKeys)
             {
                 var inBaseline = baseline.Properties.TryGetValue(key, out var oldNode);
