@@ -1,0 +1,36 @@
+## .NET Core / Visual Studio build artifacts
+bin/
+obj/
+
+## Visual Studio specific files
+.vs/
+*.user
+*.suo
+
+## SQLite database files - never commit actual data
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+
+## NuGet
+*.nupkg
+*.snupkg
+**/packages/*
+!**/packages/build/
+
+## Rider / JetBrains 
+.idea/
+
+## macOS / Windows system files
+.DS_Store
+Thumbs.db
+
+## Test results
+TestResults/
+*.trx
+
+## User-specific secrets appsettings.Development.json)
+appsettings.Development.json
+appsettings.local.json
