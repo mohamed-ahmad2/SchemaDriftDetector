@@ -88,7 +88,3 @@ That's it — no OpenAPI spec, no consumer contracts, no coordination with the f
 ## Status
 
 🚧 Work in progress — core diffing engine (`Core/`) implemented. Storage, Detection, Notifications, and Middleware layers in progress.
-
-## License
-
-MIT
