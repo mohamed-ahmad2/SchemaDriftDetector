@@ -6,12 +6,14 @@ namespace SchemaDriftDetector.Core
     {
         private const int MaxArraySamples = 5;
 
+        private const int MaxDepth = 50;
+
         public static SchemaNode? Extract(string json)
         {
             try
             {
                 using var doc = JsonDocument.Parse(json);
-                return ExtractNode(doc.RootElement);
+                return ExtractNode(doc.RootElement, depth: 0);
             }
             catch (JsonException)
             {
@@ -23,8 +25,11 @@ namespace SchemaDriftDetector.Core
             }
         }
 
-        private static SchemaNode ExtractNode(JsonElement jsonElement)
+        private static SchemaNode ExtractNode(JsonElement jsonElement, int depth)
         {
+            if (depth > MaxDepth)
+                return new SchemaNode { Type = DataType.Unknown };
+
             var node = new SchemaNode();
 
             switch (jsonElement.ValueKind)
@@ -32,12 +37,12 @@ namespace SchemaDriftDetector.Core
                 case JsonValueKind.Object:
                     node.Type = DataType.Object;
                     foreach (var prop in jsonElement.EnumerateObject())
-                        node.Properties[prop.Name] = ExtractNode(prop.Value);
+                        node.Properties[prop.Name] = ExtractNode(prop.Value, depth + 1);
                     break;
 
                 case JsonValueKind.Array:
                     node.Type = DataType.Array;
-                    node.ArrayElementType = ExtractArrayElementType(jsonElement);
+                    node.ArrayElementType = ExtractArrayElementType(jsonElement, depth + 1);
                     break;
 
                 case JsonValueKind.String:
@@ -61,7 +66,7 @@ namespace SchemaDriftDetector.Core
             return node;
         }
 
-        private static SchemaNode? ExtractArrayElementType(JsonElement arrayElement)
+        private static SchemaNode? ExtractArrayElementType(JsonElement arrayElement, int depth)
         {
             SchemaNode? merged = null;
             var sampledCount = 0;
@@ -71,7 +76,7 @@ namespace SchemaDriftDetector.Core
                 if (sampledCount >= MaxArraySamples)
                     break;
 
-                var itemNode = ExtractNode(item);
+                var itemNode = ExtractNode(item, depth);
                 merged = merged == null ? itemNode : SchemaMerger.Merge(merged, itemNode);
                 sampledCount++;
             }

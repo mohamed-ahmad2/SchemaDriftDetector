@@ -2,8 +2,16 @@
 {
     public static class SchemaMerger
     {
+        private const int MaxDepth = 50;
+
         public static SchemaNode Merge(SchemaNode baseline, SchemaNode newSample)
+            => Merge(baseline, newSample, depth: 0);
+
+        private static SchemaNode Merge(SchemaNode baseline, SchemaNode newSample, int depth)
         {
+            if (depth > MaxDepth)
+                return new SchemaNode { Type = DataType.Unknown };
+
             var merged = new SchemaNode
             {
                 Type = baseline.Type == DataType.Unknown ? newSample.Type : baseline.Type,
@@ -21,7 +29,7 @@
 
                 if (inBaseline && inSample)
                 {
-                    merged.Properties[key] = Merge(oldNode!, newNode!);
+                    merged.Properties[key] = Merge(oldNode!, newNode!, depth + 1);
                 }
                 else
                 {
@@ -34,7 +42,7 @@
             {
                 (null, var n) => n,
                 (var b, null) => b,
-                (var b, var n) => Merge(b!, n!)
+                (var b, var n) => Merge(b!, n!, depth + 1)
             };
 
             return merged;
