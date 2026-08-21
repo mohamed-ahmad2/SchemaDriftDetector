@@ -26,7 +26,6 @@
     <Folder Include="Detection\" />
     <Folder Include="Middleware\" />
     <Folder Include="Notifications\" />
-    <Folder Include="Storage\" />
   </ItemGroup>
 
 </Project>
