@@ -8,7 +8,7 @@ namespace SchemaDriftDetector
     {
         public static IServiceCollection AddSchemaDriftDetection(this IServiceCollection services, string connectionString)
         {
-            services.AddDbContext<SchemaDriftDetectorDbContext>(options =>
+            services.AddDbContextFactory<SchemaDriftDetectorDbContext>(options =>
                 options.UseSqlite(connectionString));
 
             return services;

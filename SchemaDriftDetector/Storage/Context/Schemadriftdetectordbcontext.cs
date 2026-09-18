@@ -28,8 +28,8 @@ namespace SchemaDriftDetector.Storage.Context
             {
                 entity.HasKey(e => e.Id);
 
-                entity.HasIndex(e => new { e.RouteTemplate, e.Environment })
-                      .IsUnique();
+                entity.HasIndex(e => new { e.RouteTemplate, e.HttpMethod, e.Environment, e.Role, e.ApiVersion })
+                        .IsUnique();
             });
 
             // ------------------------------------------------------------
@@ -109,6 +109,9 @@ namespace SchemaDriftDetector.Storage.Context
                       .OnDelete(DeleteBehavior.SetNull);
 
                 entity.Property(a => a.Severity)
+                       .HasConversion<string>();
+
+                entity.Property(a => a.DeliveryStatus)
                       .HasConversion<string>();
             });
 

@@ -5,7 +5,7 @@
         public Guid Id { get; set; }
 
         public Guid EndpointId { get; set; }
-        public Endpoint Endpoint { get; set; } = new Endpoint();
+        public Endpoint Endpoint { get; set; } = null!;
 
         public Guid? DeployId { get; set; } = null;
         public Deploy? Deploy { get; set; } = null;

@@ -14,10 +14,11 @@ namespace SchemaDriftDetector.Storage.Entities
         public Guid Id { get; set; }
 
         public Guid EndpointId { get; set; }
-        public Endpoint Endpoint { get; set; } = new Endpoint();
+        public Endpoint Endpoint { get; set; } = null!;
 
         public string FieldPath { get; set; } = string.Empty;
-        public string ProposedSchemaJson { get; set; } = string.Empty;
+
+        public string? ProposedSchemaJson { get; set; }
 
         public ChangeType ChangeType { get; set; }
 

@@ -115,7 +115,7 @@ namespace SchemaDriftDetector.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RouteTemplate", "Environment")
+                    b.HasIndex("RouteTemplate", "HttpMethod", "Environment", "Role", "ApiVersion")
                         .IsUnique();
 
                     b.ToTable("Endpoints");
@@ -145,7 +145,6 @@ namespace SchemaDriftDetector.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ProposedSchemaJson")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Status")

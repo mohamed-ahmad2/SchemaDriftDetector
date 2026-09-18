@@ -32,12 +32,15 @@
                 differences.Add(new SchemaDifference(path, ChangeType.BecameOptional, SeverityRules.Resolve(ChangeType.BecameOptional)));
             }
 
-            if (oldNode.Type == DataType.Object || newNode.Type == DataType.Object)
+            if (oldNode.Type == DataType.Unknown || newNode.Type == DataType.Unknown)
+                return;
+
+            if (oldNode.Type == DataType.Object)
             {
                 CompareProperties(oldNode, newNode, path, depth, differences);
             }
 
-            if (oldNode.Type == DataType.Array || newNode.Type == DataType.Array)
+            if (oldNode.Type == DataType.Array)
             {
                 CompareArrayElement(oldNode, newNode, path, depth, differences);
             }
@@ -56,6 +59,8 @@
 
                 if (inOld && !inNew)
                 {
+                    if (oldChild!.IsOptional) continue;  
+                    
                     differences.Add(new SchemaDifference(childPath, ChangeType.FieldRemoved, SeverityRules.Resolve(ChangeType.FieldRemoved)));
                 }
                 else if (!inOld && inNew)
