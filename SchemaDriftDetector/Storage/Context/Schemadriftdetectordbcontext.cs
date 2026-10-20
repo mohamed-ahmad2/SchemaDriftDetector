@@ -113,6 +113,9 @@ namespace SchemaDriftDetector.Storage.Context
 
                 entity.Property(a => a.DeliveryStatus)
                       .HasConversion<string>();
+
+                entity.Property(a => a.AlertType)
+                        .HasConversion<string>();
             });
 
             // ------------------------------------------------------------

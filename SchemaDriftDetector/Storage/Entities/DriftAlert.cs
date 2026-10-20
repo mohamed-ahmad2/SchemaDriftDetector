@@ -9,6 +9,12 @@ namespace SchemaDriftDetector.Storage.Entities
         Failed
     }
 
+    public enum AlertType
+    {
+        SchemaDrift,       
+        NewEndpointDetected 
+    }
+
     public class DriftAlert
     {
         public Guid Id { get; set; }
@@ -21,9 +27,10 @@ namespace SchemaDriftDetector.Storage.Entities
 
         public string FieldPath { get; set; } = string.Empty;
 
-        public Severity Severity { get; set; }
+        public Severity Severity { get; set; } = Severity.Safe;
 
         public DeliveryStatus DeliveryStatus { get; set; } = DeliveryStatus.Pending;
+        public AlertType AlertType { get; set; } = AlertType.SchemaDrift;
 
         public int RetryCount { get; set; } = 0;
         public DateTime DetectedAt { get; set; }

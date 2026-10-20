@@ -45,6 +45,10 @@ namespace SchemaDriftDetector.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("AlertType")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("DeliveryStatus")
                         .IsRequired()
                         .HasColumnType("TEXT");
